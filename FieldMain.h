@@ -2,6 +2,7 @@
 #include "SceneBase.h"
 #include "Player.h"
 #include "PC.h"
+#include"ReferenceRoom.h"
 #include <vector>
 
 class FieldMain 
@@ -22,6 +23,8 @@ public:
 
 	void update();
 	void draw();
+
+	void textDraw();
 
 	void examinationDraw();
 
@@ -53,6 +56,8 @@ public:
 	bool corridorWallCollision();
 	bool corridorWall2Collision();
 	bool corridorWall3Collision();
+
+	bool bookshelfCollision();
 
 private:
 
@@ -87,6 +92,7 @@ private:
 	int m_hWall;
 	int m_hOrnament;
 	int m_hOrnament2;
+	
 
 	//グラフィックのデータ
 	int m_wallGraphWidth;
@@ -103,5 +109,6 @@ private:
 
 	Player m_player;
 	PC m_pc;
+	ReferenceRoom m_referenceRoom;
 };
 

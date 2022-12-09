@@ -10,6 +10,8 @@
 
 namespace {
 	const char* const KPlayerFilename = "data/player.png";
+
+	
 }
 
 namespace {
@@ -121,6 +123,7 @@ FieldMain::FieldMain() :
 	m_hWall = My::MyLoadGraph("data/YaneKabe2.png");
 	m_hOrnament = My::MyLoadGraph("data/SF32.png");
 	m_hOrnament2 = My::MyLoadGraph("data/sousyoku.png");
+	
 	GetGraphSize(m_hWall, &m_wallGraphWidth, &m_wallGraphHeight);
 	GetGraphSize(m_hOrnament, &m_ornamentGraphWidth, &m_ornamentGraphHeight);
 	GetGraphSize(m_hOrnament2, &m_ornamentGraphWidth2, &m_ornamentGraphHeight2);
@@ -137,6 +140,7 @@ FieldMain::~FieldMain()
 	DeleteGraph(m_hWall);
 	DeleteGraph(m_hOrnament);
 	DeleteGraph(m_hOrnament2);
+	
 
 	for (auto& handle : m_hPlayer) {
 		DeleteGraph(handle);
@@ -693,8 +697,10 @@ void FieldMain::update()
 		break;
 	case 6:
 		changeFieldNum = m_pc.update();
+	case 7:
+		changeFieldNum = m_referenceRoom.update();
 	}
-	if (changeFieldNum != 6) {
+	if (changeFieldNum < 6) {
 		m_player.trace();
 		m_player.update();
 	}
@@ -713,11 +719,21 @@ void FieldMain::draw()
 			m_player.draw();
 			examinationDraw();
 			drawMap(offsetX, offsetY);
+			if (changeFieldNum == 7) {
+				m_referenceRoom.draw();
+			}
 			if (changeFieldNum == 6) {
-				m_pc.draw();
+				m_pc.drawManager();
 			}
 		}
 	}
+}
+
+
+void FieldMain::textDraw() {
+
+	
+	//DrawString()
 }
 
 void FieldMain::examinationDraw()
@@ -856,6 +872,11 @@ void FieldMain::referenceRoomUpdate()
 		changeFieldNum = 4;
 		m_player.setPos(660, 390);
 		return;
+	}
+	if(bookshelfCollision()){
+		if (Pad::isPress(PAD_INPUT_1)) {
+			changeFieldNum = 7;
+		}
 	}
 	if (referenceRoomCollision()) {
 		m_player.tradePos();
@@ -1104,12 +1125,15 @@ fieldMainColData referenceRoomColData[] = {
 	{ 55, 384,  65, 577},
 	{705, 110, 715, 577},
 	{ 65, 567, 705, 577},
-	{ 65, 205, 318, 240},
-	{448, 205, 705, 240},
-	{ 65, 365, 318, 400},
-	{448, 365, 705, 400},
-	{ 65, 460, 318, 500},
-	{448, 460, 705, 500}
+	{ 65, 198, 318, 240},//“ñ—ñ–Ú¶
+	{448, 198, 705, 240},//“ñ—ñ–Ú‰E
+	{ 65, 358, 318, 400},//3—ñ–Ú¶
+	{448, 358, 705, 400},//3—ñ–Ú‰E
+	{ 65, 453, 318, 500},//4—ñ–Ú¶
+	{448, 453, 705, 500} //4—ñ–Ú‰E
+};
+fieldMainColData bookshelf[] = {
+	{204,140,232,150}
 };
 
 fieldMainColData corridorColData[] = {
@@ -1298,8 +1322,6 @@ bool FieldMain::corridor3Collision2() {
 	return false;
 }
 
-
-
 bool FieldMain::mainFieldCollision()
 {
 	float playerLeft = m_player.getPos().x + 16;
@@ -1410,6 +1432,23 @@ bool FieldMain::corridorWall3Collision()
 	float playerBottom = m_player.getPos().y + 32;
 
 	for (fieldMainColData data : corridor3ColData) {
+		if (playerRight < data.left)continue;
+		if (playerLeft > data.right)continue;
+		if (playerBottom < data.top)continue;
+		if (playerTop > data.bottom)continue;
+		return true;
+	}
+	return false;
+}
+
+bool FieldMain::bookshelfCollision() {
+
+	float playerLeft = m_player.getPos().x + 16;
+	float playerRight = m_player.getPos().x + 32;
+	float playerTop = m_player.getPos().y;
+	float playerBottom = m_player.getPos().y + 32;
+
+	for (fieldMainColData data : bookshelf) {
 		if (playerRight < data.left)continue;
 		if (playerLeft > data.right)continue;
 		if (playerBottom < data.top)continue;

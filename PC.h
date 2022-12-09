@@ -9,19 +9,26 @@ public:
 	PC();
 	~PC();
 
+	void drawManager();
+
 	int update();
-	void draw();
+	void searchEngineDraw();
+	void windowsAcountDraw();
 
 	void getRand();
 
 	bool closeCollision();
 	bool searchBarCollision();
+	bool StandbySymbolCollision();
 
 private:
+	int m_hWindows;
+	int m_hWindowzzz;
 	int m_hGoogle;
 	int m_hGlegle;
 
 	int changeMonitorNum;
+	int monitorLv;
 
 	int mouseX;
 	int mouseY;

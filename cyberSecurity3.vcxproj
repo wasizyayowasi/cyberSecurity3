@@ -159,6 +159,7 @@
     <ClCompile Include="Pad.cpp" />
     <ClCompile Include="PC.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="ReferenceRoom.cpp" />
     <ClCompile Include="SceneBase.cpp" />
     <ClCompile Include="SceneMain.cpp" />
     <ClCompile Include="SceneManager.cpp" />
@@ -176,6 +177,7 @@
     <ClInclude Include="Pad.h" />
     <ClInclude Include="PC.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="ReferenceRoom.h" />
     <ClInclude Include="SceneBase.h" />
     <ClInclude Include="SceneMain.h" />
     <ClInclude Include="SceneManager.h" />
