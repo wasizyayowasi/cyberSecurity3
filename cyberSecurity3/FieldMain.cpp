@@ -102,7 +102,7 @@ namespace {
 
 FieldMain::FieldMain() :
 
-	changeFieldNum(1),
+	changeFieldNum(0),
 
 	changeMonitor(2),
 
@@ -697,8 +697,10 @@ void FieldMain::update()
 		break;
 	case 6:
 		changeFieldNum = m_pc.update();
+		break;
 	case 7:
 		changeFieldNum = m_referenceRoom.update();
+		break;
 	}
 	if (changeFieldNum < 6) {
 		m_player.trace();
