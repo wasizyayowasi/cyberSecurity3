@@ -29,22 +29,6 @@ void SceneMain::normalUpdate(const InputState& input)
 	m_fieldMain.update();
 
 	
-	if (changeFieldNum == 1) {
-		
-	}
-	else if (changeFieldNum == 2) {
-		
-	}
-	else if (changeFieldNum == 3) {
-		
-	}
-	else if (changeFieldNum == 4) {
-		
-	}
-	else if (changeFieldNum == 5) {
-		
-	}
-	
 	if (input.isTriggered(InputType::next))
 	{
 		updateFunc_ = &SceneMain::fadeOutUpdate;
