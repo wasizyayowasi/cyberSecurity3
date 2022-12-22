@@ -1,7 +1,9 @@
 #include "SceneTitle.h"
 #include "SceneManager.h"
 #include "SceneMain.h"
-#include "InputState.h"
+#include "SettingScene.h"
+#include "KeyConfigScene.h"
+#include "../InputState.h"
 #include <DxLib.h>
 
 void SceneTitle::fadeInUpdate(const InputState& input) {
@@ -22,13 +24,31 @@ void SceneTitle::normalUpdate(const InputState& input) {
 		updateFunc_ = &SceneTitle::fadeOutUpdate;
 		FadeColor = 0x0000ff;
 	}
+	if (input.isTriggered(InputType::next) && num == 1)
+	{
+		updateFunc_ = &SceneTitle::fadeOutUpdate;
+		FadeColor = 0x0000ff;
+	}
 }
 
 void SceneTitle::fadeOutUpdate(const InputState& input) {
 	fadeValue_ = 255 * (static_cast<float>(fadeTimer_) / static_cast<float>(fade_interval));
-	if (++fadeTimer_ == fade_interval) {
-		manager_.changeScene(new SceneMain(manager_));
-		return;
+	switch (num) {
+	case 0:
+		if (++fadeTimer_ == fade_interval) {
+			manager_.changeScene(new SceneMain(manager_));
+			return;
+		}
+		break;
+	case 1:
+		if (++fadeTimer_ == fade_interval) {
+			manager_.changeScene(new SettingScene(manager_));
+			return;
+		}
+		break;
+	case 2:
+		DxLib_End();
+		break;
 	}
 }
 

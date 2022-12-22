@@ -152,37 +152,46 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="DrawFunctions.cpp" />
-    <ClCompile Include="FieldMain.cpp" />
-    <ClCompile Include="GameEnd.cpp" />
+    <ClCompile Include="Enemy.cpp" />
+    <ClCompile Include="Field\FieldMain.cpp" />
+    <ClCompile Include="Scene\KeyConfigScene.cpp" />
+    <ClCompile Include="Scene\SettingScene.cpp" />
+    <ClCompile Include="Scene\GameEnd.cpp" />
     <ClCompile Include="InputState.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Pad.cpp" />
-    <ClCompile Include="PC.cpp" />
-    <ClCompile Include="Player.cpp" />
-    <ClCompile Include="ReferenceRoom.cpp" />
-    <ClCompile Include="SceneBase.cpp" />
-    <ClCompile Include="SceneMain.cpp" />
-    <ClCompile Include="SceneManager.cpp" />
-    <ClCompile Include="ScenePause.cpp" />
-    <ClCompile Include="SceneTitle.cpp" />
+    <ClCompile Include="Object\PC.cpp" />
+    <ClCompile Include="Object\Player.cpp" />
+    <ClCompile Include="Field\ReferenceRoom.cpp" />
+    <ClCompile Include="Scene\SceneBase.cpp" />
+    <ClCompile Include="Scene\SceneMain.cpp" />
+    <ClCompile Include="Scene\SceneManager.cpp" />
+    <ClCompile Include="Scene\ScenePause.cpp" />
+    <ClCompile Include="Scene\SceneTitle.cpp" />
+    <ClCompile Include="Field\SearchEngineRoom.cpp" />
     <ClCompile Include="SelectMenu.cpp" />
     <ClCompile Include="Vec2.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DrawFunctions.h" />
-    <ClInclude Include="FieldMain.h" />
+    <ClInclude Include="Enemy.h" />
+    <ClInclude Include="Field\FieldMain.h" />
     <ClInclude Include="game.h" />
-    <ClInclude Include="GameEnd.h" />
+    <ClInclude Include="Scene\KeyConfigScene.h" />
+    <ClInclude Include="Scene\SettingScene.h" />
+    <ClInclude Include="MapData.h" />
+    <ClInclude Include="Scene\GameEnd.h" />
     <ClInclude Include="InputState.h" />
     <ClInclude Include="Pad.h" />
-    <ClInclude Include="PC.h" />
-    <ClInclude Include="Player.h" />
-    <ClInclude Include="ReferenceRoom.h" />
-    <ClInclude Include="SceneBase.h" />
-    <ClInclude Include="SceneMain.h" />
-    <ClInclude Include="SceneManager.h" />
-    <ClInclude Include="ScenePause.h" />
-    <ClInclude Include="SceneTitle.h" />
+    <ClInclude Include="Object\PC.h" />
+    <ClInclude Include="Object\Player.h" />
+    <ClInclude Include="Field\ReferenceRoom.h" />
+    <ClInclude Include="Scene\SceneBase.h" />
+    <ClInclude Include="Scene\SceneMain.h" />
+    <ClInclude Include="Scene\SceneManager.h" />
+    <ClInclude Include="Scene\ScenePause.h" />
+    <ClInclude Include="Scene\SceneTitle.h" />
+    <ClInclude Include="Field\SearchEngineRoom.h" />
     <ClInclude Include="SelectMenu.h" />
     <ClInclude Include="Vec2.h" />
   </ItemGroup>

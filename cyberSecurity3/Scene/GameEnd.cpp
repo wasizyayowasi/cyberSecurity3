@@ -1,7 +1,7 @@
 #include "GameEnd.h"
 #include "SceneTitle.h"
 #include "SceneManager.h"
-#include "InputState.h"
+#include "../InputState.h"
 #include "DxLib.h"
 
 

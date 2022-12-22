@@ -2,14 +2,14 @@
 #include "SceneMain.h"
 #include "SceneTitle.h"
 #include "ScenePause.h"
-#include "FieldMain.h"
+#include "../Field/FieldMain.h"
 #include "GameEnd.h"
 
 //ÉcÅ[Éã
 #include "SceneManager.h"
-#include "InputState.h"
-#include "DrawFunctions.h"
-#include "game.h"
+#include "../InputState.h"
+#include "../DrawFunctions.h"
+#include "../game.h"
 //î]Ç›Çª
 #include <DxLib.h>
 
@@ -29,11 +29,11 @@ void SceneMain::normalUpdate(const InputState& input)
 	m_fieldMain.update();
 
 	
-	if (input.isTriggered(InputType::next))
+	/*if (input.isTriggered(InputType::next))
 	{
 		updateFunc_ = &SceneMain::fadeOutUpdate;
 		FadeColor = 0xffff00;
-	}
+	}*/
 	if (input.isTriggered(InputType::pause)) {
 		manager_.pushScene(new ScenePause(manager_));
 	}
@@ -51,7 +51,6 @@ void SceneMain::fadeOutUpdate(const InputState& input)
 SceneMain::SceneMain(SceneManager& manager) : SceneBase(manager), updateFunc_(&SceneMain::fadeInUpdate)
 {
 	m_fieldMain.mainFieldLoad();
-	
 }
 
 SceneMain::~SceneMain() {

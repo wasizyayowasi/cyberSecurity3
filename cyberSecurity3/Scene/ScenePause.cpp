@@ -1,6 +1,6 @@
 #include "ScenePause.h"
 #include "SceneManager.h"
-#include "InputState.h"
+#include "../InputState.h"
 #include "DxLib.h"
 
 ScenePause::ScenePause(SceneManager& manager) :SceneBase(manager) {

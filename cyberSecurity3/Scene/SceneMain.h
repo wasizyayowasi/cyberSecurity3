@@ -1,6 +1,7 @@
 #pragma once
 #include "SceneBase.h"
-#include "FieldMain.h"
+#include "../Field/FieldMain.h"
+#include "../Field/ReferenceRoom.h"
 
 class SceneMain : public SceneBase
 {
@@ -29,5 +30,6 @@ private:
 	updateFunc_t updateFunc_ = nullptr;
 
 	FieldMain m_fieldMain;
+	ReferenceRoom m_referenseRoom;
 };
 

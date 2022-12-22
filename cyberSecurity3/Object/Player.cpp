@@ -1,7 +1,7 @@
 #include "Player.h"
 #include "Player.h"
 #include "DxLib.h"
-#include "game.h"
+#include "../game.h"
 
 namespace {
 	//キャラクターアニメーション1コマ当たりのフレーム数
@@ -13,7 +13,7 @@ Player::Player() :
 	m_animeNo(0),
 	m_animeFrame(0),
 	m_animeDirections(0),
-	m_pos(250, 500),
+	m_pos(486, 208),
 	tracePosX(0),
 	tracePosY(0)
 {
@@ -38,7 +38,6 @@ void Player::update() {
 	// パッド(もしくはキーボード)からの入力を取得する
 	int padState = GetJoypadInputState(DX_INPUT_KEY_PAD1);
 	bool isKey = false;
-
 	if (padState & PAD_INPUT_UP)
 	{
 		//上　73～96
@@ -79,6 +78,7 @@ void Player::update() {
 		}
 		isKey = true;
 	}
+
 
 	//キャラクターのアニメーション
 	if (isKey) m_animeFrame++;
