@@ -16,6 +16,8 @@ public:
 	FieldMain();
 	~FieldMain();
 
+	void start();
+
 	void mainFieldLoad();
 	void searchEngineRoom();
 	void referenceRoom();
@@ -42,7 +44,7 @@ public:
 	void corridor3Update();
 	void bookmarkUpdate();
 	void carrierPigeonUpdate();
-
+	void startUpdate();
 
 	//シーン切り替え、更新
 	bool shareCollision1();
@@ -75,8 +77,12 @@ public:
 	bool meaninglessBookshelfCollision();
 	bool bookmarkCollision();
 	bool cutCollision();
+	bool postCollision();
+	bool post2Collision();
 
 	void siteDraw();
+
+	int returnEnd() { return end; }
 
 private:
 
@@ -102,6 +108,18 @@ private:
 	int siteNum = 7;
 	int photo = 0;
 
+	int m_hIrasuto;
+	int m_hIrasuto2;
+	int m_hIrasuto3;
+	int m_hIrasuto4;
+	int m_hPost;
+	int gameEndH_ = -1;// タイトル画像
+
+	int time = 120;
+
+	int irasutoNum = 0;
+
+
 	//フィールド変更用の変数
 	int changeFieldNum;
 
@@ -110,6 +128,8 @@ private:
 	int collapse;
 
 	int bookNum;
+
+	int end = 0;
 
 	// プレイヤー画像
 	int m_hPlayer[Player::kGraphicDivNum];

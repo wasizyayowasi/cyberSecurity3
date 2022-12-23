@@ -35,7 +35,7 @@ PC::PC() :
 	m_hTukumo(-1),
 
 	changeMonitorNum(4),
-	monitorLv(5),
+	monitorLv(1),
 	traceMonitorLv(0),
 	mouseX(0),
 	mouseY(0),
@@ -155,6 +155,11 @@ int PC::update()
 		}
 		break;
 	case 1:
+		if ((GetMouseInput() & MOUSE_INPUT_LEFT) != 0) {
+			if (StandbySymbolCollision()) {
+				return 1;
+			}
+		}
 		break;
 	case 2:
 		break;
@@ -181,6 +186,8 @@ void PC::windowsAcountDraw()
 	//描画種類
 	{
 		DrawGraph(144, 130, m_hWindows, true);
+		DrawString(350, 390, "ヒント", GetColor(255, 255, 255));
+		DrawString(250, 420, "思い出の本に写真がない場所の名前", GetColor(255, 255, 255));
 	}
 
 	//検索バーの点滅している奴
@@ -212,20 +219,7 @@ void PC::windowsAcountDraw()
 
 
 
-	//デバッグ用
-	{
-		//マウスの判定用
-		DrawBox(mouseX, mouseY, mouseX + 10, mouseY + 10, GetColor(0, 0, 0), false);
-		//マウスの座標
-		DrawFormatString(170, 200, GetColor(0, 0, 0), "%d:%d", mouseX, mouseY);
-		//入力
-		DrawString(320, 390, code, color2);
-
-		for (int i = 0; i < 12; i++) {
-			DrawFormatString(650, i * 15, GetColor(255, 255, 255), "%d", code[i]);
-			DrawFormatString(700, i * 15, GetColor(255, 255, 255), "%d", codeAnswer[i]);
-		}
-	}
+	
 }
 
 
@@ -252,20 +246,7 @@ void PC::counterfeitWindowsAcountDraw()
 		}
 	}
 
-	//デバッグ用
-	{
-		//マウスの判定用
-		DrawBox(mouseX, mouseY, mouseX + 10, mouseY + 10, GetColor(0, 0, 0), false);
-		//マウスの座標
-		DrawFormatString(170, 200, GetColor(0, 0, 0), "%d:%d", mouseX, mouseY);
-		//入力
-		DrawString(320, 390, code, color2);
-
-		for (int i = 0; i < 12; i++) {
-			DrawFormatString(650, i * 15, GetColor(255, 255, 255), "%d", code[i]);
-			DrawFormatString(700, i * 15, GetColor(255, 255, 255), "%d", codeAnswer[i]);
-		}
-	}
+	
 }
 
 
@@ -284,8 +265,7 @@ void PC::outskirtsDraw()
 			monitorLv = traceMonitorLv;
 		}
 	}
-	DrawFormatString(170, 200, GetColor(0, 0, 0), "%d:%d", mouseX, mouseY);
-	DrawFormatString(700, 300, GetColor(255, 255, 255), "%d", hit);
+	
 }
 
 
@@ -295,16 +275,16 @@ void PC::desktopDraw()
 
 	if ((GetMouseInput() & MOUSE_INPUT_LEFT) != 0) {
 		if (googleIconCollision()) {
-			monitorLv = 5;
+			if (GetRand(1) == 0) {
+				monitorLv = 5;
+			}
+			else {
+				monitorLv = 6;
+			}
 		}
 	}
 
-	{
-		//マウスの判定用
-		DrawBox(mouseX, mouseY, mouseX + 100, mouseY + 100, GetColor(255, 0, 0), false);
-		//マウスの座標
-		DrawFormatString(170, 500, GetColor(0, 0, 0), "%d:%d", mouseX, mouseY);
-	}
+	
 }
 
 
@@ -364,22 +344,12 @@ void PC::searchEngineDraw()
 
 	if ((GetMouseInput() & MOUSE_INPUT_LEFT) != 0) {
 		if (closeCollision()) {
-			monitorLv = 2;
+			monitorLv = 3;
 		}
 	}
 	
 
-	//デバッグ用
-	{
-		//タイマー
-		DrawFormatString(170, 300, GetColor(0, 0, 0), "%d", flashingTimer);
-		//マウスの判定用
-		DrawBox(mouseX, mouseY, mouseX + 10, mouseY + 10, GetColor(0, 0, 0), false);
-		//マウスの座標
-		DrawFormatString(170, 200, GetColor(0, 0, 0), "%d:%d", mouseX, mouseY);
-
-		DrawString(0, 300, search, GetColor(255, 255, 255));
-	}
+	
 }
 
 
@@ -404,20 +374,11 @@ void PC::counterfeitsearchEngineDraw()
 
 	if ((GetMouseInput() & MOUSE_INPUT_LEFT) != 0) {
 		if (closeCollision()) {
-			monitorLv = 2;
+			monitorLv = 3;
 		}
 	}
 
 
-	//デバッグ用
-	{
-		//タイマー
-		DrawFormatString(170, 300, GetColor(0, 0, 0), "%d", flashingTimer);
-		//マウスの判定用
-		DrawBox(mouseX, mouseY, mouseX + 10, mouseY + 10, GetColor(0, 0, 0), false);
-		//マウスの座標
-		DrawFormatString(170, 200, GetColor(0, 0, 0), "%d:%d", mouseX, mouseY);
-	}
 }
 
 
@@ -492,9 +453,7 @@ void PC::siteDraw(int num)
 	}
 	hit = 0;
 
-	//マウスの座標
-	DrawFormatString(170, 200, GetColor(0, 0, 0), "%d:%d", mouseX, mouseY);
-	DrawString(0, 300, search, GetColor(255, 255, 255));
+	
 }
 
 

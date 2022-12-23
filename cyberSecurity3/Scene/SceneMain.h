@@ -10,11 +10,12 @@ public:
 	~SceneMain();
 	void update(const InputState& input);
 	void draw();
+
+	int returnEnd() { return end; }
 private:
 
 	int changeFieldNum = 0;
-
-	
+	int end = 0;
 
 	static constexpr int fade_interval = 60;
 	int fadeTimer_ = fade_interval;

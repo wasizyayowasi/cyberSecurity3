@@ -36,7 +36,11 @@ public:
 
 	void tradePos();
 
+	
+
 private:
+
+	
 
 	//グラフィック
 	int m_handle[kGraphicDivNum];

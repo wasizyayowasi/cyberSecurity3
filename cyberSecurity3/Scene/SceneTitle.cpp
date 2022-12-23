@@ -78,9 +78,6 @@ void SceneTitle::draw()
 
 	m_menu.draw();
 
-	//普通の描画
-	DrawRotaGraph(320, 240, 1.0f, 0.0f, titleH_, true);
-
 	//今から描く画像と、すでに描画されてるスクリーンとの
 	//ブレンドの仕方を指定している。
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, fadeValue_);

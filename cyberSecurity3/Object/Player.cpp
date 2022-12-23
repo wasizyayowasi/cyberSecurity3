@@ -93,11 +93,7 @@ void Player::update() {
 
 void Player::draw() {
 
-	DrawFormatString(0, 0, GetColor(255, 255, 255), "%f:%f", m_pos.x, m_pos.y);
-	DrawFormatString(0, 30, GetColor(255, 255, 255), "%f:%f", tracePosX, tracePosY);
 	DrawGraph(m_pos.x, m_pos.y, m_handle[m_animeNo], true);
-	DrawBox(m_pos.x, m_pos.y, m_pos.x + 48, m_pos.y + 48, GetColor(255, 255, 0), false);
-	DrawBox(m_pos.x + 16, m_pos.y, m_pos.x + 32, m_pos.y + 32, GetColor(255, 0, 0),false);
 }
 
 //Ç–Ç∆Ç¬ëOÇÃç¿ïWÇécÇ∑

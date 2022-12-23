@@ -43,11 +43,11 @@ void Enemy::update(Player& player) {
 	playerPosX = player.getPos().x - m_pos.x;
 	playerPosY = player.getPos().y - m_pos.y;
 
-	if (--m_waitFrame < 0) {
-		m_pos.x += playerPosX * enemySpeed / 240;
-		m_pos.y += playerPosY * enemySpeed / 240;
-		m_waitFrame = 2;
-	}
+
+	m_pos.x += playerPosX * enemySpeed / 240;
+	m_pos.y += playerPosY * enemySpeed / 240;
+		
+	
 
 	if (player.getPos().x < m_pos.x) {
 		m_animeNo = 4;
@@ -67,4 +67,25 @@ void Enemy::update(Player& player) {
 void Enemy::draw()
 {
 	DrawGraph(m_pos.x, m_pos.y, m_hEnemy[m_animeNo], true);
+}
+
+//ƒvƒŒƒCƒ„[‚Æ‚ÌÚG”»’è
+bool Enemy::isCol(Player& player) {
+
+	float EnemyLeft = getPos().x;
+	float EnemyRight = getPos().x + 28;
+	float EnemyTop = getPos().y;
+	float EnemyBottom = getPos().y + 28;
+
+	float playerLeft = player.getPos().x;
+	float playerRight = player.getPos().x + 32;
+	float playerTop = player.getPos().y;
+	float playerBottom = player.getPos().y + 32;
+
+	if (playerRight < EnemyLeft)	return false;
+	if (playerLeft > EnemyRight)	return false;
+	if (playerBottom < EnemyTop)	return false;
+	if (playerTop > EnemyBottom)	return false;
+
+	return true;
 }

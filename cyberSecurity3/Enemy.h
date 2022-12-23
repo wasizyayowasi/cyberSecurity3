@@ -19,9 +19,13 @@ public:
 
 	void setHanlde(int index, int handle) { m_hEnemy[index] = handle; }
 
+	Vec2 getPos()const { return m_pos; }
+
 	void init();
 	void update(Player& player);
 	void draw();
+
+	bool isCol(Player& player);
 private:
 	int m_hEnemy[kGraphicDivNum];
 

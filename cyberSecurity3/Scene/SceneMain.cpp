@@ -25,15 +25,17 @@ void SceneMain::fadeInUpdate(const InputState& input)
 void SceneMain::normalUpdate(const InputState& input)
 {
 	
+	
+
 	m_fieldMain.changeField();
 	m_fieldMain.update();
 
 	
-	/*if (input.isTriggered(InputType::next))
+	if (m_fieldMain.returnEnd() > 0)
 	{
 		updateFunc_ = &SceneMain::fadeOutUpdate;
 		FadeColor = 0xffff00;
-	}*/
+	}
 	if (input.isTriggered(InputType::pause)) {
 		manager_.pushScene(new ScenePause(manager_));
 	}
@@ -43,13 +45,20 @@ void SceneMain::fadeOutUpdate(const InputState& input)
 {
 	fadeValue_ = 255 * (static_cast<float>(fadeTimer_) / static_cast<float>(fade_interval));
 	if (++fadeTimer_ == fade_interval) {
-		manager_.changeScene(new GameEnd(manager_));
-		return;
+		if (m_fieldMain.returnEnd() == 1) {
+			manager_.changeScene(new GameEnd(manager_));
+			return;
+		}
+		else {
+			manager_.changeScene(new SceneTitle(manager_));
+			return;
+		}
 	}
 }
 
 SceneMain::SceneMain(SceneManager& manager) : SceneBase(manager), updateFunc_(&SceneMain::fadeInUpdate)
 {
+	
 	m_fieldMain.mainFieldLoad();
 }
 

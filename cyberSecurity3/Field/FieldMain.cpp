@@ -127,7 +127,7 @@ namespace {
 
 FieldMain::FieldMain() :
 
-	changeFieldNum(5),
+	changeFieldNum(12),
 
 	changeMonitor(2),
 
@@ -164,6 +164,14 @@ FieldMain::FieldMain() :
 	m_hUzu = My::MyLoadGraph("data/uzu.png");
 	m_hTukumo = My::MyLoadGraph("data/tukumo.png");
 
+	m_hIrasuto = My::MyLoadGraph("data/e1.png");
+	m_hIrasuto2 = My::MyLoadGraph("data/e2.png");
+	m_hIrasuto3 = My::MyLoadGraph("data/e3.png");
+	m_hIrasuto4 = My::MyLoadGraph("data/e4.png");
+	m_hPost = My::MyLoadGraph("data/posut.png");
+
+	gameEndH_ = My::MyLoadGraph("data/gameover.png");
+
 	GetGraphSize(m_hWall, &m_wallGraphWidth, &m_wallGraphHeight);
 	GetGraphSize(m_hOrnament, &m_ornamentGraphWidth, &m_ornamentGraphHeight);
 	GetGraphSize(m_hOrnament2, &m_ornamentGraphWidth2, &m_ornamentGraphHeight2);
@@ -184,7 +192,7 @@ FieldMain::~FieldMain()
 	DeleteGraph(m_hWall);
 	DeleteGraph(m_hOrnament);
 	DeleteGraph(m_hOrnament2);
-	
+	DeleteGraph(gameEndH_);
 	DeleteGraph(m_hHuzi);
 	DeleteGraph(m_hHuzi2);
 	DeleteGraph(m_hInesayama);
@@ -194,6 +202,12 @@ FieldMain::~FieldMain()
 	DeleteGraph(m_hUzu);
 	DeleteGraph(m_hTukumo);
 
+	DeleteGraph(m_hIrasuto);
+	DeleteGraph(m_hIrasuto2);
+	DeleteGraph(m_hIrasuto3);
+	DeleteGraph(m_hIrasuto4);
+	DeleteGraph(m_hPost);
+
 	for (auto& handle : m_hPlayer) {
 		DeleteGraph(handle);
 	}
@@ -201,6 +215,26 @@ FieldMain::~FieldMain()
 		DeleteGraph(handle);
 	}
 }
+
+void FieldMain::start()
+{
+	if (irasutoNum == 0) {
+		DrawGraph(0, 0, m_hIrasuto, true);
+	}
+	else if (irasutoNum == 1) {
+		DrawGraph(0, 0, m_hIrasuto2, true);
+	}
+	else if (irasutoNum == 2) {
+		DrawGraph(0, 0, m_hIrasuto3, true);
+	}
+	else if (irasutoNum == 3) {
+		DrawGraph(0, 0, m_hIrasuto4, true);
+	}
+	if (irasutoNum == 4) {
+		changeFieldNum = 13;
+	}
+}
+
 
 
 //メイン
@@ -1864,12 +1898,31 @@ void FieldMain::update()
 			changeFieldNum = 0;
 		}
 		break;
+	case 12:
+		startUpdate();
+		break;
+	case 13:
+		if (Pad::isPress(PAD_INPUT_2)) {
+			changeFieldNum = 0;
+		}
+		break;
+	case 14:
+		if (Pad::isPress(PAD_INPUT_2)) {
+			changeFieldNum = 7;
+		}
+		break;
 	}
 	if (changeFieldNum < 8) {
 		m_player.trace();
 		m_player.update();
 		if (collapse > 0) {
 			m_enemy.update(m_player);
+			if (m_enemy.isCol(m_player)) {
+				end = 2;
+				for (int i = 0; i < 180; i++) {
+					DrawRotaGraph(Game::kScreenWidth / 2, Game::kScreenHeight / 2, 1.0, 0.0, gameEndH_, true);
+				}
+			}
 		}
 	}
 	
@@ -1922,7 +1975,8 @@ void FieldMain::draw()
 				siteDraw();
 				break;
 			case 7:
-				
+				DrawGraph(700, 100, m_hPost, true);
+				m_player.draw();
 				break;
 			case 8:
 				drawMap(offsetX, offsetY);
@@ -1949,6 +2003,37 @@ void FieldMain::draw()
 					DrawBox(88, 410, 680, 540, 0xffffff, false);
 				}
 				DrawString(126, 444, "ハサミを見つけた。", GetColor(255, 255, 255));
+				break;
+			case 12:
+				start();
+				break;
+			case 13:
+				drawMap(offsetX, offsetY);
+				//画面の外枠
+				{
+					SetDrawBlendMode(DX_BLENDMODE_MULA, 50);//乗算合成
+					//ポーズウィンドウセロファン(黒い)
+					DrawBox(88, 410, 680, 540, 0x000000, true);
+
+					SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);//通常描画に戻す
+
+					DrawBox(88, 410, 680, 540, 0xffffff, false);
+				}
+				DrawString(126, 444, "富士山の写真を送って元気を出してもらおう。", GetColor(255, 255, 255));
+				break;
+			case 14:
+				drawMap(offsetX, offsetY);
+				//画面の外枠
+				{
+					SetDrawBlendMode(DX_BLENDMODE_MULA, 50);//乗算合成
+					//ポーズウィンドウセロファン(黒い)
+					DrawBox(88, 410, 680, 540, 0x000000, true);
+
+					SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);//通常描画に戻す
+
+					DrawBox(88, 410, 680, 540, 0xffffff, false);
+				}
+				DrawString(126, 444, "写真を送信します。", GetColor(255, 255, 255));
 				break;
 			}
 		}
@@ -2190,11 +2275,8 @@ void FieldMain::bookmarkUpdate()
 		m_player.tradePos();
 	}
 	if (itemCount > 0) {
-		DrawString(0, 200, "ハサミ", GetColor(255, 255, 255));
 		if (cutCollision()) {
-			DrawString(0, 300, "hit", GetColor(255, 255, 255));
 			if (Pad::isPress(PAD_INPUT_1)) {
-				DrawString(0, 400, "get", GetColor(255, 255, 255));
 				photo = 1;
 			}
 		}
@@ -2207,9 +2289,29 @@ void FieldMain::bookmarkUpdate()
 
 void FieldMain::carrierPigeonUpdate()
 {
+	if (postCollision()) {
+		m_player.tradePos();
+	}
+
+	if (Pad::isPress(PAD_INPUT_1)) {
+		if (post2Collision()) {
+			if (photo > 0) {
+				changeFieldNum = 14;
+				end = 1;
+			}
+		}
+	}
 	if (carrierPigeonCollision()) {
 		changeFieldNum = 5;
 		m_player.setPos(484, 300);
+	}
+}
+
+void FieldMain::startUpdate()
+{
+	if (--time == 0) {
+		irasutoNum++;
+		time = 120;
 	}
 }
 
@@ -2284,7 +2386,7 @@ void FieldMain::drawMap(int offsetX, int offsetY) {
 		}
 	}
 
-	if (changeFieldNum == 0 || changeFieldNum == 11) {
+	if (changeFieldNum == 0 || changeFieldNum == 11 || changeFieldNum == 13) {
 		for (int x = 0; x < kBgNum4X; x++) {
 			for (int y = 0; y < kBgNum4Y; y++) {
 
@@ -2308,7 +2410,6 @@ void FieldMain::drawMap(int offsetX, int offsetY) {
 void FieldMain::siteDraw() {
 	siteNum = m_pc.returnSiteNum();
 
-	DrawFormatString(0, 100, GetColor(255, 255, 255), "%d", siteNum);
 	switch (siteNum) {
 	case 0:
 		if (photo > 0) {
@@ -2569,6 +2670,13 @@ fieldMainColData bookmarkColData[] = {
 };
 fieldMainColData cutColData[] = {
 	{386, 244, 674, 424},
+};
+
+fieldMainColData postColData[] = {
+	{716, 118, 740, 128},
+};
+fieldMainColData post2ColData[] = {
+	{716, 118, 740, 132},
 };
 
 //当たり判定一覧
@@ -3022,6 +3130,40 @@ bool FieldMain::cutCollision()
 	float playerBottom = m_player.getPos().y + 32;
 
 	for (fieldMainColData data : cutColData) {
+		if (playerRight < data.left)continue;
+		if (playerLeft > data.right)continue;
+		if (playerBottom < data.top)continue;
+		if (playerTop > data.bottom)continue;
+		return true;
+	}
+	return false;
+}
+
+bool FieldMain::postCollision()
+{
+	float playerLeft = m_player.getPos().x + 16;
+	float playerRight = m_player.getPos().x + 32;
+	float playerTop = m_player.getPos().y;
+	float playerBottom = m_player.getPos().y + 32;
+
+	for (fieldMainColData data : postColData) {
+		if (playerRight < data.left)continue;
+		if (playerLeft > data.right)continue;
+		if (playerBottom < data.top)continue;
+		if (playerTop > data.bottom)continue;
+		return true;
+	}
+	return false;
+}
+
+bool FieldMain::post2Collision()
+{
+	float playerLeft = m_player.getPos().x + 16;
+	float playerRight = m_player.getPos().x + 32;
+	float playerTop = m_player.getPos().y;
+	float playerBottom = m_player.getPos().y + 32;
+
+	for (fieldMainColData data : post2ColData) {
 		if (playerRight < data.left)continue;
 		if (playerLeft > data.right)continue;
 		if (playerBottom < data.top)continue;
